@@ -1,28 +1,27 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import {ApiError} from "../utils/ApiError.js"
-import { User} from "../models/user.model.js"
+import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 
-const generateAccessAndRefereshTokens = async(userId) =>{
-    try {
-        const user = await User.findById(userId)
-        const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+const generateAccessAndRefereshTokens = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
-        user.refreshToken = refreshToken
-        await user.save({})
+    // Save refreshToken to DB
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
 
-        return {accessToken, refreshToken}
+    return { accessToken, refreshToken };
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while generating refresh and access token");
+  }
+};
 
-
-    } catch (error) {
-        throw new ApiError(500, "Something went wrong while generating referesh and access token")
-    }
-}
 
 const registerUser = asyncHandler(async (req, res) => {
-
   const {
     fullName,
     phoneNumber,
@@ -32,19 +31,18 @@ const registerUser = asyncHandler(async (req, res) => {
     totalOff
   } = req.body;
 
-  // Validation: required fields from schema
+  // Validation
   if (!fullName || !phoneNumber) {
     throw new ApiError(400, "fullName and phoneNumber are required");
   }
 
-  // Check if user already exists by phoneNumber
+  // Check if user exists
   const existedUser = await User.findOne({ phoneNumber });
-
   if (existedUser) {
     throw new ApiError(409, "User with this phone number already exists");
   }
 
-  // Create user (refreshToken blank at start)
+  // Step 1: Create user with empty refreshToken
   const user = await User.create({
     fullName,
     phoneNumber,
@@ -52,74 +50,68 @@ const registerUser = asyncHandler(async (req, res) => {
     proUser,
     otp,
     totalOff,
-    refreshToken: ""
+    refreshToken: "",
   });
 
-  // Fetch without sensitive fields
-  const createdUser = await User.findById(user._id).select(
-    "-refreshToken"
-  );
+  // Step 2: Generate tokens (saves refreshToken automatically)
+  const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
 
+  // Step 3: Fetch safe user details
+  const createdUser = await User.findById(user._id).select("-refreshToken");
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
+  const options = { httpOnly: true, secure: true };
+
+  // Step 4: Send response
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered successfully"));
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        { createdUser, accessToken, refreshToken },
+        "User registered successfully"
+      )
+    );
 });
 
 
-
-
 const loginUser = asyncHandler(async (req, res) => {
+  const { phoneNumber } = req.body;
 
-  const {
-
-    phoneNumber,
-  } = req.body;
-
-   // Validation: required fields from schema
+  // Validation
   if (!phoneNumber) {
     throw new ApiError(400, "phoneNumber is required");
   }
 
-    // Check if user already exists by phoneNumber
+  // Check if user exists
   const existedUser = await User.findOne({ phoneNumber });
-
   if (!existedUser) {
     throw new ApiError(409, "User with this phone number does not exist");
   }
 
-  const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(existedUser._id)
+  // Generate tokens (auto-saves refreshToken)
+  const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(existedUser._id);
 
-  const loggedInUser = await User.findById(existedUser._id).select(" -refreshToken")
+  const loggedInUser = await User.findById(existedUser._id).select("-refreshToken");
 
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+  const options = { httpOnly: true, secure: true };
 
-    return res
+  return res
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-
-
+      new ApiResponse(
+        200,
+        { user: loggedInUser, accessToken, refreshToken },
+        "User logged In Successfully"
+      )
+    );
 });
 
 
-export {
-    registerUser,
-    loginUser,
-
-}
+export { registerUser, loginUser };
