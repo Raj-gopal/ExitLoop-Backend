@@ -28,4 +28,4 @@ const peakZoneSchema = new mongoose.Schema(
   }
 );
 
-export const peakZone = mongoose.model("peakZone", peakZoneSchema);
+export const PeakZone = mongoose.model("PeakZone", peakZoneSchema);

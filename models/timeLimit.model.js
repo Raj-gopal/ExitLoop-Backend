@@ -35,4 +35,4 @@ const timeLimitSchema = new mongoose.Schema(
   }
 );
 
-export const timeLimit = mongoose.model("timeLimit", timeLimitSchema);
+export const TimeLimit = mongoose.model("TimeLimit", timeLimitSchema);
