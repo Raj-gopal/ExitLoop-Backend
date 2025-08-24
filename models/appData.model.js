@@ -10,6 +10,7 @@ const appDataSchema = new mongoose.Schema(
     },
     appData: [
       {
+        _id: false,
         appPackageName: {
           type: String,
           required: true,
@@ -22,26 +23,23 @@ const appDataSchema = new mongoose.Schema(
           type: Number,
           default: 0,
         },
-        appUsed: [
+        appUsed: 
           {
             type: [Number],
           },
-        ],
-        appPeakUsed: [
+        
+        appPeakUsed: 
           {
             type: [Number],
           },
-        ],
-        weeklyUsed: [
+        
+        weeklyUsed: 
           {
             type: [Number],
           },
-        ],
-        weeklyPeakUsed: [
-          {
-            type: [Number],
-          },
-        ],
+        weeklyPeakUsed: {
+          type: [Number],
+        },
         appCapped: {
           type: Boolean,
           default: false,
