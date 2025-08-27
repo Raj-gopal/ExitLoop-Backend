@@ -1,23 +1,22 @@
 import { Router } from "express";
 import { 
 
-    registerUser, 
-    loginUser,
- 
-} from "../controllers/user.controller.js";
-//import { verifyJWT } from "../middlewares/auth.middleware.js";
+    createPeakZone, 
+    getPeakZones,
+    
+} from "../controllers/peakZone.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
 const router = Router()
+router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
-router.route("/register").post(
-    registerUser
-    )
 
-router.route("/login").post(loginUser)
 
-// //secured routes
-// router.route("/logout").post(verifyJWT,  logoutUser)
+
+// secured routes
+router.route("/createPeakZone").post(verifyJWT,  createPeakZone)
+router.route("/getPeakZones").get(verifyJWT, getPeakZones)
 // router.route("/refresh-token").post(refreshAccessToken)
 // router.route("/change-password").post(verifyJWT, changeCurrentPassword)
 // router.route("/current-user").get(verifyJWT, getCurrentUser)
