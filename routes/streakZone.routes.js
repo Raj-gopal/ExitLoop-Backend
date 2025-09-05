@@ -1,10 +1,9 @@
 import { Router } from "express";
 import { 
 
-    createPeakZone, 
-    getPeakZones,
-    
-} from "../controllers/peakZone.controller.js";
+    createStreakZone, 
+    getStreakZones,
+} from "../controllers/streakZone.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
@@ -15,8 +14,8 @@ router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 
 // secured routes
-router.route("/createPeakZone").post(verifyJWT,  createPeakZone)
-router.route("/getPeakZones").get(verifyJWT, getPeakZones)
+router.route("/createStreakZone").post(verifyJWT,  createStreakZone)
+router.route("/getStreakZones").get(verifyJWT, getStreakZones)
 
 
 export default router

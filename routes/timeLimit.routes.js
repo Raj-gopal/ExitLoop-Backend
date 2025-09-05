@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { 
 
-    createPeakZone, 
-    getPeakZones,
+    createTimeLimit, 
+    getTimeLimits,
     
-} from "../controllers/peakZone.controller.js";
+} from "../controllers/timeLimit.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
@@ -15,8 +15,9 @@ router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 
 // secured routes
-router.route("/createPeakZone").post(verifyJWT,  createPeakZone)
-router.route("/getPeakZones").get(verifyJWT, getPeakZones)
+router.route("/:userId/createTimeLimit").post(verifyJWT,  createTimeLimit)
+router.route("/:userId/getTimeLimits").get(verifyJWT, getTimeLimits)
+
 
 
 export default router
