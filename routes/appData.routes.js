@@ -7,17 +7,15 @@ import {
 } from "../controllers/appData.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+const router = Router();
 
-const router = Router()
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+// Apply verifyJWT to all routes in this router
+router.use(verifyJWT);
 
+// secured routes (userId in params)
+router.post("/:userId/create", createOrUpdateAppData);
+router.get("/:userId", getAppData);
+router.put("/:userId/update", updateAppEntry);
+router.delete("/:userId/delete", deleteAppEntry);
 
-
-
-// secured routes
-router.route("/createAppData").post(verifyJWT,  createOrUpdateAppData)
-router.route("/getAppData").get(verifyJWT, getAppData)
-router.route("/updateAppEntry").put(verifyJWT, updateAppEntry)
-router.route("/deleteAppEntry").delete(verifyJWT, deleteAppEntry)
-
-export default router
+export default router;

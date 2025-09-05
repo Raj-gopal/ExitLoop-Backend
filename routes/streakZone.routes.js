@@ -1,21 +1,20 @@
+// routes/streakZone.routes.js
 import { Router } from "express";
-import { 
-
-    createStreakZone, 
-    getStreakZones,
+import {
+  createStreakZone,
+  getStreakZones,
 } from "../controllers/streakZone.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+const router = Router();
 
-const router = Router()
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+// ✅ Apply auth middleware to all routes
+router.use(verifyJWT);
 
+// ✅ Create or Update StreakZone for a user
+router.post("/:userId", createStreakZone);
 
+// ✅ Get StreakZone by streakZoneId
+router.get("/:id", getStreakZones);
 
-
-// secured routes
-router.route("/createStreakZone").post(verifyJWT,  createStreakZone)
-router.route("/getStreakZones").get(verifyJWT, getStreakZones)
-
-
-export default router
+export default router;

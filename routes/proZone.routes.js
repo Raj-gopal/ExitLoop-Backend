@@ -1,19 +1,20 @@
-import express from "express";
+
+import { Router } from "express";
 import {
   createOrUpdateProZone,
   getProZoneByUserId,
   deleteProZoneByUserId,
-} from "../controllers/proZoneController.js";
+} from "../controllers/proZone.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const router = Router();
 
-// ✅ Create or Update ProZone for a user
-router.post("/:userId", createOrUpdateProZone);
+// ✅ Protect all routes
+router.use(verifyJWT);
 
-// ✅ Get ProZone by userId
-router.get("/:userId", getProZoneByUserId);
-
-// ✅ Delete ProZone by userId
-router.delete("/:userId", deleteProZoneByUserId);
+// ✅ Routes
+router.route("/:userId/createOrUpdateProZone").post(createOrUpdateProZone);
+router.route("/:userId/getProZone").get(getProZoneByUserId);
+router.route("/:userId/deleteProZone").delete(deleteProZoneByUserId);
 
 export default router;

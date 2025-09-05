@@ -1,22 +1,17 @@
 import { Router } from "express";
-import { 
-
-    createPeakZone, 
-    getPeakZones,
-    
+import {
+  createPeakZone,
+  getPeakZones,
 } from "../controllers/peakZone.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+const router = Router();
 
-const router = Router()
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+// ✅ Apply verifyJWT middleware to all routes
+router.use(verifyJWT);
 
+// ✅ Routes
+router.route("/:userId/createPeakZone").post(createPeakZone);
+router.route("/:userId/getPeakZones").get(getPeakZones);
 
-
-
-// secured routes
-router.route("/createPeakZone").post(verifyJWT,  createPeakZone)
-router.route("/getPeakZones").get(verifyJWT, getPeakZones)
-
-
-export default router
+export default router;

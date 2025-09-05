@@ -80,3 +80,6 @@ export const deleteProZoneByUserId = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
+export { createOrUpdateProZone, getProZoneByUserId, deleteProZoneByUserId };
