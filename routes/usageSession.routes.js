@@ -6,6 +6,8 @@ import {
 } from "../controllers/usageSession.controller.js";
 
 const router = express.Router();
+router.use(verifyJWT);
+
 
 // ✅ Create a usage session
 router.route("/:userId/createUsageSession").post(verifyJWT,  createUsageSession)

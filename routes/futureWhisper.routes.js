@@ -7,10 +7,11 @@ import {
 } from "../controllers/futureWhisper.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+router.use(verifyJWT);
 
 const router = Router();
 
-router.use(verifyJWT);
+
 
 // ✅ Create whisper for a streakZone
 router.route("/:streakZoneId/createFutureWhisper").post(verifyJWT, createFutureWhisper);
@@ -25,4 +26,4 @@ router.route("/:id/updateFutureWhisper").put(verifyJWT, updateFutureWhisper);
 // ✅ Delete a whisper by id
 router.route("/:id/deleteFutureWhisper").delete(verifyJWT, deleteFutureWhisper);
 
-export default router;
+export default router
