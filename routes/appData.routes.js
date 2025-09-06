@@ -9,13 +9,11 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// Apply verifyJWT to all routes in this router
-router.use(verifyJWT);
 
 // secured routes (userId in params)
-router.route("/:userId/createOrUpdateAppData").post(createOrUpdateAppData);
-router.route("/:userId/getAppData").get(getAppData);
-router.route("/:userId/updateAppEntry").put(updateAppEntry);
-router.route("/:userId/deleteAppEntry").delete(deleteAppEntry);
+router.route("/:userId/createOrUpdateAppData").post(verifyJWT,createOrUpdateAppData);
+router.route("/:userId/getAppData").get(verifyJWT,getAppData);
+router.route("/:userId/updateAppEntry").put(verifyJWT,updateAppEntry);
+router.route("/:userId/deleteAppEntry").delete(verifyJWT,deleteAppEntry);
 
 export default router;

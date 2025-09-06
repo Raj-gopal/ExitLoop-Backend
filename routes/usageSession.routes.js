@@ -1,12 +1,13 @@
-import express from "express";
+import { Router } from "express";
 import {
   createUsageSession,
   getUsageSessions,
   deleteUsageSessions,
 } from "../controllers/usageSession.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
-router.use(verifyJWT);
+
+const router = Router();
 
 
 // ✅ Create a usage session

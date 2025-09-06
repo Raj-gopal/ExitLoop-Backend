@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   createOrUpdateFocus,
   getFocus,
@@ -9,16 +9,14 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.use(verifyJWT);
-
 
 // ✅ Create or Update Focus for a user
-router.route("/:userId/createOrUpdateFocus").post(createOrUpdateFocus);
+router.route("/:userId/createOrUpdateFocus").post(verifyJWT,createOrUpdateFocus);
 
 // ✅ Get Focus by userId
-router.route("/:userId/getFocus").get(getFocus);
+router.route("/:userId/getFocus").get(verifyJWT,getFocus);
 
 // ✅ Delete Focus by userId
-router.route("/:userId/deleteFocus").delete(deleteFocus);
+router.route("/:userId/deleteFocus").delete(verifyJWT,deleteFocus);
 
 export default router;

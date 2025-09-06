@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   createPeakCal,
   getPeakCal,
@@ -10,7 +10,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.use(verifyJWT);
+
 
 
 // Create (userId in params)

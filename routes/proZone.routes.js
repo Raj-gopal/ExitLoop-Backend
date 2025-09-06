@@ -9,8 +9,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// ✅ Protect all routes
-router.use(verifyJWT);
+
 
 // ✅ Routes
 router.route("/:userId/createOrUpdateProZone").post(verifyJWT, createOrUpdateProZone);

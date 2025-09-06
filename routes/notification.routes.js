@@ -10,7 +10,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.use(verifyJWT);
+
 
 // ✅ Create a notification for a user
 router.route("/:userId/createNotification").post(verifyJWT, createNotification);

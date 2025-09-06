@@ -7,7 +7,6 @@ import {
 } from "../controllers/futureWhisper.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-router.use(verifyJWT);
 
 const router = Router();
 

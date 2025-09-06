@@ -9,13 +9,12 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // ✅ Apply auth middleware to all routes
-router.use(verifyJWT);
 
 // ✅ Create or Update StreakZone for a user
 router.route("/:userId/createStreakZone").post(verifyJWT,  createStreakZone);
 
 
 // ✅ Get StreakZone by streakZoneId
-router.route("/:id/getStreakZones").get(verifyJWT, getStreakZones);
+router.route("/:id/getStreakZone").get(verifyJWT, getStreakZones);
 
 export default router;
