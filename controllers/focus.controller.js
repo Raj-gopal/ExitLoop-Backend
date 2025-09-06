@@ -1,7 +1,10 @@
-import { Focus } from "../models/focusModel.js";
+import { Focus } from "../models/focus.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // ✅ Create or Update Focus by userId
-export const createOrUpdateFocus = async (req, res) => {
+ const createOrUpdateFocus = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.params; // 👈 userId from params
     const {
@@ -44,10 +47,10 @@ export const createOrUpdateFocus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+ });
 
 // ✅ Get Focus by userId
-export const getFocus = async (req, res) => {
+const getFocus = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -65,10 +68,10 @@ export const getFocus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
 
 // ✅ Delete Focus by userId
-export const deleteFocus = async (req, res) => {
+const deleteFocus = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -82,7 +85,7 @@ export const deleteFocus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
 
 export {
   createOrUpdateFocus,

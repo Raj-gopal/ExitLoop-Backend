@@ -1,10 +1,12 @@
 import { UsageSession } from "../models/usageSession.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // ✅ Create a new usage session
-export const createUsageSession = async (req, res) => {
-  try {
-    const { userId } = req.params; // 👈 userId from params
-    const { appPackageName, sessionStart, sessionEnd, durationSeconds } = req.body;
+ const createUsageSession = asyncHandler(async (req, res) => {
+  const { userId } = req.params; // 👈 userId from params
+  const { appPackageName, sessionStart, sessionEnd, durationSeconds } = req.body;
 
     if (!userId) {
       return res.status(400).json({ success: false, message: "userId is required" });
@@ -23,15 +25,12 @@ export const createUsageSession = async (req, res) => {
       data: newSession,
       message: "Usage session created successfully",
     });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 // ✅ Get all usage sessions by userId
-export const getUsageSessions = async (req, res) => {
-  try {
-    const { userId } = req.params;
+ const getUsageSessions = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
 
     if (!userId) {
       return res.status(400).json({ success: false, message: "userId is required" });
@@ -44,14 +43,12 @@ export const getUsageSessions = async (req, res) => {
     }
 
     res.status(200).json({ success: true, data: sessions });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 // ✅ Delete all sessions by userId
-export const deleteUsageSessions = async (req, res) => {
-  try {
+ const deleteUsageSessions = asyncHandler(async (req, res) => {
+
     const { userId } = req.params;
 
     const result = await UsageSession.deleteMany({ userId });
@@ -61,10 +58,8 @@ export const deleteUsageSessions = async (req, res) => {
     }
 
     res.status(200).json({ success: true, message: "All sessions deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 export { createUsageSession, getUsageSessions, deleteUsageSessions };
 

@@ -1,9 +1,11 @@
-import { ProZone } from "../models/proZoneModel.js";
+import { ProZone } from "../models/proZone.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // ✅ Create or Update ProZone for a user
-export const createOrUpdateProZone = async (req, res) => {
-  try {
-    const { userId } = req.params; // 👈 userId from params
+const createOrUpdateProZone = asyncHandler(async (req, res) => {
+  const { userId } = req.params; // 👈 userId from params
     const {
       typeOfPlan,
       planDaysLeft,
@@ -38,15 +40,12 @@ export const createOrUpdateProZone = async (req, res) => {
     );
 
     res.status(201).json({ success: true, data: proZone, message: "ProZone saved successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 // ✅ Get ProZone by userId
-export const getProZone = async (req, res) => {
-  try {
-    const { userId } = req.params;
+const getProZone = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
 
     if (!userId) {
       return res.status(400).json({ success: false, message: "userId is required" });
@@ -59,15 +58,12 @@ export const getProZone = async (req, res) => {
     }
 
     res.status(200).json({ success: true, data: proZone });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 // ✅ Delete ProZone by userId
-export const deleteProZone = async (req, res) => {
-  try {
-    const { userId } = req.params;
+const deleteProZone = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
 
     const deleted = await ProZone.findOneAndDelete({ userId });
 
@@ -76,10 +72,8 @@ export const deleteProZone = async (req, res) => {
     }
 
     res.status(200).json({ success: true, message: "ProZone deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
+  
+});
 
 
 export { createOrUpdateProZone, getProZone, deleteProZone };

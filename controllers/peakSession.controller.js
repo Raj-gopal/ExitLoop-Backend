@@ -1,7 +1,8 @@
+import { PeakSession } from "../models/peakSession.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { PeakSession } from "../models/peakSession.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+
 
 // ✅ Create or Update PeakSession (from params)
 const createPeakSession = asyncHandler(async (req, res) => {

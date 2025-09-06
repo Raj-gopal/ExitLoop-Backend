@@ -5,7 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 // ✅ Create StreakDay under a StreakZone
-export const createStreakDay = asyncHandler(async (req, res) => {
+ const createStreakDay = asyncHandler(async (req, res) => {
   const { streakZoneId } = req.params;
   const { date, streak } = req.body;
 
@@ -24,7 +24,7 @@ export const createStreakDay = asyncHandler(async (req, res) => {
 });
 
 // ✅ Get all StreakDays under a StreakZone
-export const getStreakDays = asyncHandler(async (req, res) => {
+ const getStreakDays = asyncHandler(async (req, res) => {
   const { streakZoneId } = req.params;
 
   const zone = await StreakZone.findById(streakZoneId);

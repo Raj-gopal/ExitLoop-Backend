@@ -1,10 +1,10 @@
 import { PeakCal } from "../models/peakCal.model.js";
-import asyncHandler from "../utils/asyncHandler.js";
-import ApiError from "../utils/ApiError.js";
-import ApiResponse from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // Create PeakCal
-export const createPeakCal = asyncHandler(async (req, res) => {
+ const createPeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params; // <-- from params
   const { maxTimeToday, peakStartTime, peakEndTime, peakHours, peakStartNextWeek, peakEndNextWeek } = req.body;
 
@@ -26,7 +26,7 @@ export const createPeakCal = asyncHandler(async (req, res) => {
 });
 
 // Get PeakCal by userId
-export const getPeakCal = asyncHandler(async (req, res) => {
+ const getPeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
   const peakCal = await PeakCal.findOne({ userId }).select("-__v");
@@ -39,7 +39,7 @@ export const getPeakCal = asyncHandler(async (req, res) => {
 });
 
 // Update PeakCal by userId
-export const updatePeakCal = asyncHandler(async (req, res) => {
+ const updatePeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const updates = req.body;
 
@@ -57,7 +57,7 @@ export const updatePeakCal = asyncHandler(async (req, res) => {
 });
 
 // Delete PeakCal by userId
-export const deletePeakCal = asyncHandler(async (req, res) => {
+ const deletePeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
   const peakCal = await PeakCal.findOneAndDelete({ userId });

@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { TimeLimit } from "../models/timeLimit.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { TimeLimit } from "../models/timeLimit.model.js";
 
 // ✅ Create or Update TimeLimit by userId (from params)
 const createTimeLimit = asyncHandler(async (req, res) => {

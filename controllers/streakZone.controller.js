@@ -1,19 +1,10 @@
+import { StreakZone } from "../models/streakZone.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { StreakZone } from "../models/streakZone.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-
-
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { StreakZone } from "../models/streakZone.model.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-// import { User } from "../models/user.model.js"; // if you have User model
-
-
 
 // ✅ Create or Update StreakZone
-export const createStreakZone = asyncHandler(async (req, res) => {
+ const createStreakZone = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const { currentStreak, longestStreak } = req.body;
 
@@ -45,7 +36,7 @@ export const createStreakZone = asyncHandler(async (req, res) => {
 
 
 // ✅ Get single StreakZone by streakZoneId (from params)
-export const getStreakZones = asyncHandler(async (req, res) => {
+ const getStreakZones = asyncHandler(async (req, res) => {
   const { id } = req.params; // streakZoneId
 
   if (!id) {
