@@ -26,7 +26,7 @@ export const createPeakCal = asyncHandler(async (req, res) => {
 });
 
 // Get PeakCal by userId
-export const getPeakCalByUserId = asyncHandler(async (req, res) => {
+export const getPeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
   const peakCal = await PeakCal.findOne({ userId }).select("-__v");
@@ -39,7 +39,7 @@ export const getPeakCalByUserId = asyncHandler(async (req, res) => {
 });
 
 // Update PeakCal by userId
-export const updatePeakCalByUserId = asyncHandler(async (req, res) => {
+export const updatePeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const updates = req.body;
 
@@ -57,7 +57,7 @@ export const updatePeakCalByUserId = asyncHandler(async (req, res) => {
 });
 
 // Delete PeakCal by userId
-export const deletePeakCalByUserId = asyncHandler(async (req, res) => {
+export const deletePeakCal = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
   const peakCal = await PeakCal.findOneAndDelete({ userId });
@@ -68,3 +68,5 @@ export const deletePeakCalByUserId = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, peakCal, "PeakCal deleted successfully"));
 });
+
+export { createPeakCal, getPeakCal, updatePeakCal, deletePeakCal };

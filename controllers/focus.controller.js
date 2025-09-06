@@ -47,7 +47,7 @@ export const createOrUpdateFocus = async (req, res) => {
 };
 
 // ✅ Get Focus by userId
-export const getFocusByUserId = async (req, res) => {
+export const getFocus = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -68,7 +68,7 @@ export const getFocusByUserId = async (req, res) => {
 };
 
 // ✅ Delete Focus by userId
-export const deleteFocusByUserId = async (req, res) => {
+export const deleteFocus = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -82,4 +82,10 @@ export const deleteFocusByUserId = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
+};
+
+export {
+  createOrUpdateFocus,
+  getFocus,
+  deleteFocus,
 };

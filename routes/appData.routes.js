@@ -13,9 +13,9 @@ const router = Router();
 router.use(verifyJWT);
 
 // secured routes (userId in params)
-router.post("/:userId/create", createOrUpdateAppData);
-router.get("/:userId", getAppData);
-router.put("/:userId/update", updateAppEntry);
-router.delete("/:userId/delete", deleteAppEntry);
+router.route("/:userId/createOrUpdateAppData").post(createOrUpdateAppData);
+router.route("/:userId/getAppData").get(getAppData);
+router.route("/:userId/updateAppEntry").put(updateAppEntry);
+router.route("/:userId/deleteAppEntry").delete(deleteAppEntry);
 
 export default router;

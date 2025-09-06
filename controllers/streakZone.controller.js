@@ -44,8 +44,6 @@ export const createStreakZone = asyncHandler(async (req, res) => {
 
 
 
-// ✅ Get all StreakZones of logged user
-
 // ✅ Get single StreakZone by streakZoneId (from params)
 export const getStreakZones = asyncHandler(async (req, res) => {
   const { id } = req.params; // streakZoneId

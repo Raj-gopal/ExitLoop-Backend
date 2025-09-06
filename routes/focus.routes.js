@@ -1,19 +1,24 @@
 import express from "express";
 import {
   createOrUpdateFocus,
-  getFocusByUserId,
-  deleteFocusByUserId,
-} from "../controllers/focusController.js";
+  getFocus,
+  deleteFocus,
+} from "../controllers/focus.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+
+const router = Router();
+
+router.use(verifyJWT);
+
 
 // ✅ Create or Update Focus for a user
-router.post("/:userId", createOrUpdateFocus);
+router.route("/:userId/createOrUpdateFocus").post(createOrUpdateFocus);
 
 // ✅ Get Focus by userId
-router.get("/:userId", getFocusByUserId);
+router.route("/:userId/getFocus").get(getFocus);
 
 // ✅ Delete Focus by userId
-router.delete("/:userId", deleteFocusByUserId);
+router.route("/:userId/deleteFocus").delete(deleteFocus);
 
 export default router;

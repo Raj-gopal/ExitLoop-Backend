@@ -11,7 +11,7 @@ const router = Router();
 router.use(verifyJWT);
 
 // ✅ Routes
-router.route("/:userId/createPeakZone").post(createPeakZone);
-router.route("/:userId/getPeakZones").get(getPeakZones);
+router.route("/:userId/createPeakZone").post(verifyJWT, createPeakZone);
+router.route("/:userId/getPeakZones").get(verifyJWT, getPeakZones);
 
 export default router;

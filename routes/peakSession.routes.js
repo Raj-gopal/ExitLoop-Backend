@@ -11,7 +11,8 @@ const router = Router();
 router.use(verifyJWT);
 
 // ✅ Routes
-router.route("/:userId/createPeakSession").post(createPeakSession);
-router.route("/:userId/getPeakSessions").get(getPeakSessions);
+router.route("/:userId/createPeakSession").post(verifyJWT, createPeakSession);
+router.route("/:userId/getPeakSessions").get(verifyJWT, getPeakSessions);
+
 
 export default router;

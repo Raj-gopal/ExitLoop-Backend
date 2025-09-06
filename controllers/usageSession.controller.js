@@ -29,7 +29,7 @@ export const createUsageSession = async (req, res) => {
 };
 
 // ✅ Get all usage sessions by userId
-export const getUsageSessionsByUserId = async (req, res) => {
+export const getUsageSessions = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -50,7 +50,7 @@ export const getUsageSessionsByUserId = async (req, res) => {
 };
 
 // ✅ Delete all sessions by userId
-export const deleteUsageSessionsByUserId = async (req, res) => {
+export const deleteUsageSessions = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -65,3 +65,6 @@ export const deleteUsageSessionsByUserId = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+export { createUsageSession, getUsageSessions, deleteUsageSessions };
+

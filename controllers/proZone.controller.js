@@ -44,7 +44,7 @@ export const createOrUpdateProZone = async (req, res) => {
 };
 
 // ✅ Get ProZone by userId
-export const getProZoneByUserId = async (req, res) => {
+export const getProZone = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -65,7 +65,7 @@ export const getProZoneByUserId = async (req, res) => {
 };
 
 // ✅ Delete ProZone by userId
-export const deleteProZoneByUserId = async (req, res) => {
+export const deleteProZone = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -82,4 +82,4 @@ export const deleteProZoneByUserId = async (req, res) => {
 };
 
 
-export { createOrUpdateProZone, getProZoneByUserId, deleteProZoneByUserId };
+export { createOrUpdateProZone, getProZone, deleteProZone };

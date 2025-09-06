@@ -5,19 +5,24 @@ import {
   updateNotification,
   deleteNotification,
 } from "../controllers/notification.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+
 
 const router = Router();
 
+router.use(verifyJWT);
+
 // ✅ Create a notification for a user
-router.post("/:userId", createNotification);
+router.route("/:userId/createNotification").post(verifyJWT, createNotification);
+
 
 // ✅ Get all notifications for a user
-router.get("/:userId", getNotifications);
+router.route("/:userId/getNotifications").get(verifyJWT, getNotifications);
 
 // ✅ Update a notification by ID
-router.put("/:id", updateNotification);
+router.route("/:id/updateNotification").put(verifyJWT, updateNotification);
 
 // ✅ Delete a notification by ID
-router.delete("/:id", deleteNotification);
+router.route("/:id/deleteNotification").delete(verifyJWT, deleteNotification);
 
 export default router;

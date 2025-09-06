@@ -1,23 +1,28 @@
 import express from "express";
 import {
   createPeakCal,
-  getPeakCalByUserId,
-  updatePeakCalByUserId,
-  deletePeakCalByUserId,
+  getPeakCal,
+  updatePeakCal,
+  deletePeakCal,
 } from "../controllers/peakCal.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+
+const router = Router();
+
+router.use(verifyJWT);
+
 
 // Create (userId in params)
-router.post("/:userId", createPeakCal);
+router.route("/:userId/createPeakCal").post(verifyJWT, createPeakCal);
 
 // Get by userId
-router.get("/:userId", getPeakCalByUserId);
+router.route("/:userId/getPeakCal").get(verifyJWT, getPeakCal);
 
 // Update by userId
-router.put("/:userId", updatePeakCalByUserId);
+router.route("/:userId/updatePeakCal").put(verifyJWT, updatePeakCal);
 
 // Delete by userId
-router.delete("/:userId", deletePeakCalByUserId);
+router.route("/:userId/deletePeakCal").delete(verifyJWT, deletePeakCal);
 
 export default router;

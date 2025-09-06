@@ -2,8 +2,8 @@
 import { Router } from "express";
 import {
   createOrUpdateProZone,
-  getProZoneByUserId,
-  deleteProZoneByUserId,
+  getProZone,
+  deleteProZone,
 } from "../controllers/proZone.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -13,8 +13,8 @@ const router = Router();
 router.use(verifyJWT);
 
 // ✅ Routes
-router.route("/:userId/createOrUpdateProZone").post(createOrUpdateProZone);
-router.route("/:userId/getProZone").get(getProZoneByUserId);
-router.route("/:userId/deleteProZone").delete(deleteProZoneByUserId);
+router.route("/:userId/createOrUpdateProZone").post(verifyJWT, createOrUpdateProZone);
+router.route("/:userId/getProZone").get(verifyJWT, getProZone);
+router.route("/:userId/deleteProZone").delete(verifyJWT, deleteProZone);
 
 export default router;

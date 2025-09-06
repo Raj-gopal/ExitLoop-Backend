@@ -5,19 +5,24 @@ import {
   updateFutureWhisper,
   deleteFutureWhisper,
 } from "../controllers/futureWhisper.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+
 
 const router = Router();
 
+router.use(verifyJWT);
+
 // ✅ Create whisper for a streakZone
-router.post("/:streakZoneId", createFutureWhisper);
+router.route("/:streakZoneId/createFutureWhisper").post(verifyJWT, createFutureWhisper);
+
 
 // ✅ Get all whispers for a streakZone
-router.get("/:streakZoneId", getFutureWhispers);
+router.route("/:streakZoneId/getFutureWhispers").get(verifyJWT, getFutureWhispers);
 
 // ✅ Update a whisper by id
-router.put("/:id", updateFutureWhisper);
+router.route("/:id/updateFutureWhisper").put(verifyJWT, updateFutureWhisper);
 
 // ✅ Delete a whisper by id
-router.delete("/:id", deleteFutureWhisper);
+router.route("/:id/deleteFutureWhisper").delete(verifyJWT, deleteFutureWhisper);
 
 export default router;
