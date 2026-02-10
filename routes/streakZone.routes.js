@@ -14,7 +14,7 @@ const router = Router();
 router.route("/:userId/createStreakZone").post(verifyJWT,  createStreakZone);
 
 
-// ✅ Get StreakZone by streakZoneId
-router.route("/:id/getStreakZone").get(verifyJWT, getStreakZones);
+// ✅ Get StreakZone by userId
+router.route("/:userId/getStreakZone").get(verifyJWT, getStreakZones);
 
 export default router;

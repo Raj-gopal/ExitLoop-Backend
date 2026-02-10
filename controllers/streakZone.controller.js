@@ -35,15 +35,15 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 
 
-// ✅ Get single StreakZone by streakZoneId (from params)
+// ✅ Get single StreakZone by userId (from params)
  const getStreakZones = asyncHandler(async (req, res) => {
-  const { id } = req.params; // streakZoneId
+  const { userId } = req.params;
 
-  if (!id) {
-    throw new ApiError(400, "streakZoneId is required");
+  if (!userId) {
+    throw new ApiError(400, "userId is required");
   }
 
-  const streakZone = await StreakZone.findById(id).select("-__v");
+  const streakZone = await StreakZone.findOne({ userId }).select("-__v");
 
   if (!streakZone) {
     throw new ApiError(404, "Streak zone not found");

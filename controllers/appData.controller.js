@@ -16,7 +16,9 @@ const createOrUpdateAppData = asyncHandler(async (req, res) => {
 
   const updatedAppData = await AppData.findOneAndUpdate(
     { userId },
-    { appData },
+    {
+      $push: { appData: { $each: appData } }  // ✅ add new apps without overriding old
+    },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   ).select("-__v");
 
@@ -77,7 +79,7 @@ const updateAppEntry = asyncHandler(async (req, res) => {
 // ✅ Delete/reset a specific app entry
 const deleteAppEntry = asyncHandler(async (req, res) => {
   const { userId } = req.params;
-  const { appPackageName } = req.body;
+   const { appPackageName } = req.body || {};
 
   if (!userId) throw new ApiError(400, "userId is required");
   if (!appPackageName) throw new ApiError(400, "appPackageName is required");
