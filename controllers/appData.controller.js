@@ -6,7 +6,7 @@ import { AppData } from "../models/appData.model.js";
 
 // ✅ Create or Update all AppData for a user
 const createOrUpdateAppData = asyncHandler(async (req, res) => {
-  const { userId } = req.params; // params se userId
+  const { userId } = req.params;
   const { appData } = req.body;
 
   if (!userId) throw new ApiError(400, "userId is required");
@@ -14,22 +14,49 @@ const createOrUpdateAppData = asyncHandler(async (req, res) => {
     throw new ApiError(400, "appData must be a valid array");
   }
 
-  const updatedAppData = await AppData.findOneAndUpdate(
-    { userId },
-    {
-      $push: { appData: { $each: appData } }  // ✅ add new apps without overriding old
-    },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  ).select("-__v");
+  // find existing document
+  let existing = await AppData.findOne({ userId });
 
-  if (!updatedAppData) {
-    throw new ApiError(500, "Something went wrong while creating/updating app data");
+  // if no document exists, create directly
+  if (!existing) {
+    const newDoc = await AppData.create({
+      userId,
+      appData
+    });
+
+    return res
+      .status(201)
+      .json(new ApiResponse(201, newDoc, "App data created successfully"));
   }
 
+  // convert existing appData into map for easy update
+  const existingMap = new Map();
+  existing.appData.forEach((app) => {
+    existingMap.set(app.appPackageName, app);
+  });
+
+  // merge new appData
+  appData.forEach((newApp) => {
+    if (existingMap.has(newApp.appPackageName)) {
+      // update existing app
+      const oldApp = existingMap.get(newApp.appPackageName);
+
+      Object.assign(oldApp, newApp); // update fields
+      existingMap.set(newApp.appPackageName, oldApp);
+    } else {
+      // insert new app
+      existing.appData.push(newApp);
+    }
+  });
+
+  // save updated doc
+  await existing.save();
+
   return res
-    .status(201)
-    .json(new ApiResponse(201, updatedAppData, "App data created/updated successfully"));
+    .status(200)
+    .json(new ApiResponse(200, existing, "App data updated successfully"));
 });
+
 
 
 // ✅ Get all AppData for a user
