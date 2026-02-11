@@ -113,7 +113,7 @@ const deleteAppEntry = asyncHandler(async (req, res) => {
 
   const updatedAppData = await AppData.findOneAndUpdate(
     { userId },
-    { $pull: { appData: { appPackageName } } },
+    { $pull: { appData: { appPackageName: appPackageName } } },
     { new: true }
   ).select("-__v");
 
